@@ -17,10 +17,11 @@ export const createSchedule = async (req: Request, res: Response) => {
 // GET ALL (History)
 export const getSchedules = async (req: Request, res: Response) => {
   try {
-    const { applicationId } = req.query;
+    const applicationId = req.query.applicationId as string;
 
-    const data = await ScheduleInspection.find({ applicationId })
-      .sort({ createdAt: -1 });
+    const data = await ScheduleInspection.find({
+      applicationId,
+    }).sort({ createdAt: -1 });
 
     res.json(data);
   } catch (err) {
@@ -51,10 +52,11 @@ export const createInspection = async (req: Request, res: Response) => {
 // GET ALL (History)
 export const getInspections = async (req: Request, res: Response) => {
   try {
-    const { applicationId } = req.query;
+    const applicationId = req.query.applicationId as string;
 
-    const data = await Inspection.find({ applicationId })
-      .sort({ createdAt: -1 });
+    const data = await Inspection.find({
+      applicationId,
+    }).sort({ createdAt: -1 });
 
     res.json(data);
   } catch (err) {
