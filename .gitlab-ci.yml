@@ -1,0 +1,20 @@
+stages:
+  - deploy
+
+deploy_job:
+  stage: deploy
+  tags:
+    - makeform-be
+  script:
+    - echo "=== Pulling latest code ==="
+    - cd /var/www/html/makeform-be/
+    - git clean -d -f .
+    - git pull origin main
+    - echo "=== Deploying build files ==="
+    - npm i --legacy-peer-deps
+    - npx pm2 stop backend 2>&1 >/dev/null || npx pm2 start npm --name "backend" -- run prod && npx pm2 stop backend 2>&1
+    - npx pm2 delete backend
+    - npx pm2 start npm --name "backend" -- run prod -- -p 5001
+
+  only:
+    - main
